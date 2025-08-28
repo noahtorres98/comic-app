@@ -1,26 +1,249 @@
 @import "tailwindcss";
 
+/* ========== THEME ========== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core palette */
+  --color-background: #000000; /* keep the pure black backdrop */
+  --color-text: #ffffff;
+
+  /* Your accent trio */
+  --color-highlight: #60589a; /* link hover / accents */
+  --color-muted: #3c3e66; /* subtle surfaces / outlines */
+  --color-accent: #965e96; /* buttons / strong accents */
+
+  /* Surfaces & borders */
+  --color-surface: #0d0d0d; /* elevated panels/cards */
+  --color-border: #242424;
+
+  /* Overlay gradient (card text) */
+  --overlay-from: rgba(0, 0, 0, 0.85);
+  --overlay-to: rgba(0, 0, 0, 0);
+
+  /* Layout */
+  --nav-height: 64px;
+  --container-max: 1200px;
+
+  /* Motion */
+  --duration-quick: 200ms;
+  --duration-smooth: 300ms;
+  --easing: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Base */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ========== LAYOUT HELPERS ========== */
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+.page {
+  padding-top: calc(var(--nav-height) + 0.5rem);
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  position: fixed;
+  inset: 0 auto auto 0;
+  height: var(--nav-height);
+  width: 100%;
+  z-index: 50;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 2rem;
+
+  background: var(--color-background);
+  color: var(--color-text);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+
+  transform: translateY(0);
+  transition: transform var(--duration-smooth) var(--easing);
+}
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+.brand {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+.nav-items {
+  display: flex;
+  gap: 2rem;
+}
+.nav-link {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--duration-quick) var(--easing);
+}
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--color-highlight);
+}
+
+/* ========== CONTROLS (buttons/inputs) ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+
+  transition: background var(--duration-quick) var(--easing),
+    color var(--duration-quick) var(--easing),
+    border-color var(--duration-quick) var(--easing),
+    transform var(--duration-quick) var(--easing);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+.btn-primary:hover {
+  background: var(--color-highlight);
+}
+
+.input {
+  width: 100%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  outline: none;
+  transition: border-color var(--duration-quick) var(--easing),
+    box-shadow var(--duration-quick) var(--easing);
+}
+.input::placeholder {
+  color: #9aa;
+}
+.input:focus {
+  border-color: var(--color-muted);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-muted) 35%, transparent);
+}
+
+/* ========== GRID & CARDS ========== */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .grid-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  background: var(--color-surface);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition: transform var(--duration-smooth) var(--easing),
+    box-shadow var(--duration-smooth) var(--easing);
+}
+.card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+}
+.card-media {
+  width: 100%;
+  aspect-ratio: 2 / 3; /* uniform covers */
+  overflow: hidden;
+}
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform var(--duration-smooth) var(--easing);
+}
+.card:hover .card-media img {
+  transform: scale(1.06);
+}
+
+.card-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0.85rem;
+  background: linear-gradient(to top, var(--overlay-from), var(--overlay-to));
+}
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.card-meta {
+  font-size: 0.85rem;
+  color: color-mix(in oklab, var(--color-text) 65%, white 0%);
+  opacity: 0.85;
+}
+
+/* ========== MODAL ========== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+}
+.modal-panel {
+  width: min(560px, 92vw);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity var(--duration-quick) var(--easing);
+}
+.modal-close:hover {
+  opacity: 1;
+}
+
+/* ========== SPACING HELPERS ========== */
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.row-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }

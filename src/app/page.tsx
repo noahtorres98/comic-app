@@ -1,103 +1,125 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Link from "next/link";
+// If you already have JSON, import it. Otherwise this is a stub:
+import comicsData from "@/data/comics.json"; // [{ id, title, genre, cover }...]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [query, setQuery] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [comics, setComics] = useState(comicsData);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const filtered = comics.filter((c: any) =>
+    (c.title + " " + (c.genre ?? ""))
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
+
+  // simple add form state
+  const [newComic, setNewComic] = useState({ title: "", genre: "", cover: "" });
+
+  const addComic = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newComic.title || !newComic.cover) return;
+    setComics((prev) => [...prev, { id: crypto.randomUUID(), ...newComic }]);
+    setNewComic({ title: "", genre: "", cover: "" });
+    setModalOpen(false);
+  };
+
+  return (
+    <>
+      <Navbar />
+
+      <main className="page container">
+        {/* Header row */}
+        <div className="row-wrap" style={{ justifyContent: "space-between" }}>
+          <h1 className="text-2xl font-bold">My Comic Library</h1>
+          <button
+            className="btn btn-primary"
+            onClick={() => setModalOpen(true)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            + Add Comic
+          </button>
+        </div>
+
+        {/* Search */}
+        <div
+          className="stack"
+          style={{ marginTop: "1rem", marginBottom: "1rem" }}
+        >
+          <input
+            className="input"
+            placeholder="Search by title or genre…"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+
+        {/* Grid */}
+        <div className="grid-cards">
+          {filtered.map((comic: any) => (
+            <Link key={comic.id} href={`/comics/${comic.id}`} className="card">
+              <div className="card-media">
+                <img src={comic.cover} alt={comic.title} />
+              </div>
+              <div className="card-overlay">
+                <div className="card-title">{comic.title}</div>
+                {comic.genre ? (
+                  <div className="card-meta">{comic.genre}</div>
+                ) : null}
+              </div>
+            </Link>
+          ))}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-backdrop" onClick={() => setModalOpen(false)}>
+          <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setModalOpen(false)}>
+              ✕
+            </button>
+            <h2
+              className="text-xl font-bold"
+              style={{ marginBottom: ".75rem" }}
+            >
+              Add New Comic
+            </h2>
+            <form onSubmit={addComic} className="stack">
+              <input
+                className="input"
+                placeholder="Title"
+                value={newComic.title}
+                onChange={(e) =>
+                  setNewComic((v) => ({ ...v, title: e.target.value }))
+                }
+              />
+              <input
+                className="input"
+                placeholder="Genre (optional)"
+                value={newComic.genre}
+                onChange={(e) =>
+                  setNewComic((v) => ({ ...v, genre: e.target.value }))
+                }
+              />
+              <input
+                className="input"
+                placeholder="Cover URL"
+                value={newComic.cover}
+                onChange={(e) =>
+                  setNewComic((v) => ({ ...v, cover: e.target.value }))
+                }
+              />
+              <button type="submit" className="btn btn-primary">
+                Save Comic
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
