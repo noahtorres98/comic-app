@@ -1,110 +1,33 @@
 [
   {
-    "id": "my-first-comic",
+    "id": "invincible",
     "title": "Invincible",
     "genre": "Superhero",
-    "year": 2024,
-    "description": "A story about magic, adventure, and friendship.",
-    "cover": "/comics/my-first-comic/invincible.jpg",
-    "pages": ["/comics/my-first-comic/1.jpg", "/comics/my-first-comic/2.jpg"]
+    "cover": "/comics/invincible/invincible-12.jpg",
+    "issues": [
+      { "id": "1", "cover": "/comics/invincible/invincible-12.jpg" },
+      { "id": "2", "cover": "/comics/invincible/invincible-50.jpg" },
+      { "id": "3", "cover": "/comics/invincible/invincible-138.jpg" }
+    ]
   },
   {
-    "id": "space-adventure",
-    "title": "Invincible 50",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/invincible_issue_50.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-1",
-    "title": "Void Rivals 1",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/void-rivals-1.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-2",
-    "title": "Void Rivals 2",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/void-rivals-2.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-1",
-    "title": "Battle Beast 1",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/battle-beast-1.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-2",
-    "title": "Battle Beast 2",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/battle-beast-2.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "my-first-comic",
-    "title": "Invincible",
+    "id": "battle-beast",
+    "title": "Battle Beast",
     "genre": "Superhero",
-    "year": 2024,
-    "description": "A story about magic, adventure, and friendship.",
-    "cover": "/comics/my-first-comic/invincible.jpg",
-    "pages": ["/comics/my-first-comic/1.jpg", "/comics/my-first-comic/2.jpg"]
+    "cover": "/comics/battle-beast/battle-beast-1.jpg",
+    "issues": [
+      { "id": "1", "cover": "/comics/battle-beast/battle-beast-1.jpg" },
+      { "id": "2", "cover": "/comics/battle-beast/battle-beast-2.jpg" }
+    ]
   },
   {
-    "id": "space-adventure",
-    "title": "Invincible 50",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/invincible_issue_50.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-1",
-    "title": "Void Rivals 1",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/void-rivals-1.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-2",
-    "title": "Void Rivals 2",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/void-rivals-2.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-1",
-    "title": "Battle Beast 1",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/battle-beast-1.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
-  },
-  {
-    "id": "vr-2",
-    "title": "Battle Beast 2",
-    "genre": "Sci-Fi",
-    "year": 2025,
-    "description": "Exploring distant galaxies in search of new worlds.",
-    "cover": "/comics/my-first-comic/battle-beast-2.jpg",
-    "pages": ["/comics/space-adventure/1.jpg", "/comics/space-adventure/2.jpg"]
+    "id": "void-rivals",
+    "title": "Void Rivals",
+    "genre": "Sci Fi",
+    "cover": "/comics/void-rivals/void-rivals-1.jpg",
+    "issues": [
+      { "id": "1", "cover": "/comics/void-rivals/void-rivals-1.jpg" },
+      { "id": "2", "cover": "/comics/void-rivals/void-rivals-2.jpg" }
+    ]
   }
 ]
