@@ -10,7 +10,7 @@ export default async function SeriesPage({
   if (!series) return <div>Series not found</div>;
 
   return (
-    <main className="min-h-screen p-8 pt-[var(--nav-height)]">
+    <main className="min-h-screen p-8">
       <h1 className="text-3xl font-bold mb-6">{series.title}</h1>
 
       {/* Use same grid as homepage */}
