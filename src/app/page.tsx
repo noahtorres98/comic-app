@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
 import ComicCard from "@/components/ComicCard";
 import comicsData from "@/data/comics.json";
 
