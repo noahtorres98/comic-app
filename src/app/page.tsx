@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ComicCard from "@/components/ComicCard";
 import comicsData from "@/data/comics.json";
+import { Button } from "@/components/ui/button";
+import SmallLink from "@/components/SmallLink";
 
 export default function Home() {
   const [comics, setComics] = useState(comicsData);
@@ -24,6 +26,7 @@ export default function Home() {
           <p className="text-lg text-[var(--color-accent)]">
             Track, explore, and enjoy your comics.
           </p>
+          <SmallLink href="/search">Go to Search</SmallLink>
         </section>
 
         {/* Stats */}
@@ -43,7 +46,7 @@ export default function Home() {
         </section>
 
         {/* Featured / Recent Series */}
-        <section className="mb-12">
+        {/* <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Recent Series</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {recentAdditions.map((series) => (
@@ -55,20 +58,7 @@ export default function Home() {
               />
             ))}
           </div>
-        </section>
-
-        {/* Quick Actions */}
-        <section className="text-center">
-          <a
-            href="/library"
-            className="inline-block px-6 py-3 mr-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:opacity-80 transition"
-          >
-            View Full Library
-          </a>
-          <button className="inline-block px-6 py-3 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:opacity-80 transition">
-            + Add Comic
-          </button>
-        </section>
+        </section> */}
       </main>
     </>
   );

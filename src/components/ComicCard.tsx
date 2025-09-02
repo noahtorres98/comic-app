@@ -8,7 +8,7 @@ interface ComicCardProps {
 
 export default function ComicCard({ title, cover, href }: ComicCardProps) {
   const cardContent = (
-    <div className="flex flex-col bg-[var(--color-bg)] shadow-md rounded-md overflow-hidden hover:scale-105 transition-transform duration-200">
+    <div className="flex flex-col bg-[var(--color-bg)] shadow-md overflow-hidden hover:scale-105 transition-transform duration-200">
       <div className="w-full aspect-[2/3] relative">
         <img src={cover} alt={title} className="w-full h-full object-cover" />
       </div>
