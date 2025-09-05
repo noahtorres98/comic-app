@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     const res = await fetch(
       `https://comicvine.gamespot.com/api/search/?api_key=${apiKey}&format=json&resources=volume&query=${encodeURIComponent(
         query
-      )}&limit=50`,
+      )}`,
       { headers: { "User-Agent": "MyComicApp" } }
     );
     const data = await res.json();

@@ -4,23 +4,15 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import ComicDetailDrawer from "./ComicDetailDrawer";
 import ComicCard from "./ComicCard";
 
 export default function ComicSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-
-  const getHref = (comic: any) => {
-    switch (comic.resource_type) {
-      case "volume":
-        return `/library/${comic.id}`; // series page
-      case "issue":
-        return `/issue/${comic.id}`; // individual issue page
-      default:
-        return "#"; // fallback for unknown types
-    }
-  };
+  const [selectedComic, setSelectedComic] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false); // ← this was missing
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +45,7 @@ export default function ComicSearch() {
         />
         <Button type="submit">Search</Button>
       </form>
+
       {/* Loading */}
       {loading && (
         <div className="grid grid-cols-5 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -61,6 +54,7 @@ export default function ComicSearch() {
           ))}
         </div>
       )}
+
       {/* Results */}
       {!loading && results.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
@@ -69,11 +63,24 @@ export default function ComicSearch() {
               key={comic.id}
               title={comic.title}
               cover={comic.cover}
-              href={`/comic/${comic.id}`}
+              onClick={() => {
+                setSelectedComic(comic.id);
+                setDrawerOpen(true);
+              }}
             />
           ))}
         </div>
       )}
+
+      {/* Drawer */}
+      {selectedComic && (
+        <ComicDetailDrawer
+          comicId={selectedComic}
+          open={drawerOpen}
+          onOpenChange={setDrawerOpen}
+        />
+      )}
+
       {/* No results */}
       {!loading && results.length === 0 && query && (
         <p className="text-center text-gray-400">
