@@ -12,15 +12,18 @@ export async function GET(req: Request) {
     const res = await fetch(
       `https://comicvine.gamespot.com/api/search/?api_key=${apiKey}&format=json&resources=volume&query=${encodeURIComponent(
         query
-      )}`,
+      )}&limit=50`,
       { headers: { "User-Agent": "MyComicApp" } }
     );
     const data = await res.json();
 
-    const results = (data.results || []).map((comic: any) => ({
+    const results = (data.results ?? []).map((comic: any) => ({
       id: comic.id,
       title: comic.name,
-      cover: comic.image?.original_url,
+      cover: comic.image?.original_url || "",
+      publisher: comic.publisher?.name || "",
+      start_year: comic.start_year || "",
+      authors: comic.person_credits?.map((a: any) => a.name) || [],
     }));
 
     return NextResponse.json(results);

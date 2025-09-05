@@ -1,15 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import ComicCard from "./ComicCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import ComicCard from "./ComicCard";
 
 export default function ComicSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const getHref = (comic: any) => {
+    switch (comic.resource_type) {
+      case "volume":
+        return `/library/${comic.id}`; // series page
+      case "issue":
+        return `/issue/${comic.id}`; // individual issue page
+      default:
+        return "#"; // fallback for unknown types
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,13 +63,13 @@ export default function ComicSearch() {
       )}
       {/* Results */}
       {!loading && results.length > 0 && (
-        <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
           {results.map((comic: any) => (
             <ComicCard
               key={comic.id}
               title={comic.title}
               cover={comic.cover}
-              href={`/library/${comic.id}`}
+              href={`/comic/${comic.id}`}
             />
           ))}
         </div>

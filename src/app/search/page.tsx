@@ -1,5 +1,3 @@
-import ComicCard from "@/components/ComicCard";
-import comicsData from "@/data/comics.json";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,11 +7,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import ComicSearch from "@/components/ComicSearch";
 
-export default async function Library() {
-  const res = await fetch("http://localhost:3000/api/comics", {
-    cache: "no-store", // ensures fresh data
-  });
-  const comics = await res.json();
+export default function Search() {
   return (
     <main className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
       <Breadcrumb>
