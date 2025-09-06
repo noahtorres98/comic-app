@@ -5,8 +5,9 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import ComicSearch from "@/components/ComicSearch";
 
-export default async function Library() {
+export default function Search() {
   return (
     <main className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
       <Breadcrumb>
@@ -16,11 +17,12 @@ export default async function Library() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/library">Library</BreadcrumbLink>
+            <BreadcrumbLink href="/search">Search</BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="text-3xl font-bold mb-6">My Library</h1>
+      <h1 className="text-3xl font-bold mb-6">Search Comics</h1>
+      <ComicSearch />
     </main>
   );
 }
