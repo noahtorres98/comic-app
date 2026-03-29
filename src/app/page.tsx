@@ -13,13 +13,13 @@ export default function Home() {
   const totalSeries = comics.length;
   const totalIssues = comics.reduce(
     (sum, series) => sum + series.issues.length,
-    0
+    0,
   );
   const recentAdditions = comics.slice(-3); // last 3 series added
 
   return (
     <>
-      <main className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
+      <div className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
         {/* Hero Banner */}
         <section className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-2">My Comic Library</h1>
@@ -59,7 +59,7 @@ export default function Home() {
             ))}
           </div>
         </section> */}
-      </main>
+      </div>
     </>
   );
 }

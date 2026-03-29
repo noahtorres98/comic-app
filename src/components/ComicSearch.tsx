@@ -1,76 +1,52 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import ComicDetailDrawer from "./ComicDetailDrawer";
+import { useComicSearch } from "@/hooks/useComics";
+import { Spinner } from "./ui/spinner";
 import ComicCard from "./ComicCard";
+import ComicDetailDrawer from "./ComicDetailDrawer";
+import { SkeletonCard } from "./SkeletonCard";
+import { SearchInput } from "./SearchInput";
 
 export default function ComicSearch() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedComic, setSelectedComic] = useState<string | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false); // ← this was missing
+  const [input, setInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [selectedComic, setSelectedComic] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!query) return;
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useComicSearch(search);
 
-    setLoading(true);
-    setResults([]); // clear previous results
-
-    try {
-      const res = await fetch(
-        `/api/comics/search?query=${encodeURIComponent(query)}`
-      );
-      const data = await res.json();
-      setResults(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const comics = data?.pages?.flatMap((page) => page.results ?? []) ?? [];
 
   return (
     <div className="p-4">
-      {/* Search Form */}
-      <form onSubmit={handleSearch} className="flex gap-2 mb-6">
-        <Input
-          placeholder="Search by series or author..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+      {/* Search Input + Button */}
+      <div className="mb-4">
+        <SearchInput
+          value={input}
+          onChange={setInput}
+          onSearch={() => setSearch(input)}
         />
-        <Button type="submit">Search</Button>
-      </form>
+      </div>
 
-      {/* Loading */}
-      {loading && (
-        <div className="grid grid-cols-5 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {[...Array(6)].map((_, idx) => (
-            <Skeleton key={idx} className="h-48 w-full rounded-md" />
-          ))}
-        </div>
-      )}
+      {isLoading && <Spinner />}
 
       {/* Results */}
-      {!loading && results.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
-          {results.map((comic: any) => (
-            <ComicCard
-              key={comic.id}
-              title={comic.title}
-              cover={comic.cover}
-              onClick={() => {
-                setSelectedComic(comic.id);
-                setDrawerOpen(true);
-              }}
-            />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        {comics.map((comic: any, index) => (
+          <ComicCard
+            key={`${comic.id}-${index}`}
+            title={comic.title}
+            cover={comic.cover}
+            // href={`/comics/${comic.id}`}
+            onClick={() => {
+              setSelectedComic(comic.id);
+              setDrawerOpen(true);
+            }}
+          />
+        ))}
+      </div>
 
       {/* Drawer */}
       {selectedComic && (
@@ -81,11 +57,17 @@ export default function ComicSearch() {
         />
       )}
 
-      {/* No results */}
-      {!loading && results.length === 0 && query && (
-        <p className="text-center text-gray-400">
-          No results found for "{query}"
-        </p>
+      {/* Load More */}
+      {hasNextPage && (
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="bg-gray-800 text-white px-4 py-2"
+          >
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </button>
+        </div>
       )}
     </div>
   );

@@ -36,7 +36,13 @@ body {
   padding: 0;
   background: var(--color-background);
   color: var(--color-text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
     sans-serif;
 }
 
@@ -104,7 +110,8 @@ body {
   padding: 0.6rem 1rem;
   font-weight: 600;
 
-  transition: background var(--duration-quick) var(--easing),
+  transition:
+    background var(--duration-quick) var(--easing),
     color var(--duration-quick) var(--easing),
     border-color var(--duration-quick) var(--easing),
     transform var(--duration-quick) var(--easing);
@@ -129,7 +136,8 @@ body {
   border-radius: 0.6rem;
   padding: 0.6rem 0.8rem;
   outline: none;
-  transition: border-color var(--duration-quick) var(--easing),
+  transition:
+    border-color var(--duration-quick) var(--easing),
     box-shadow var(--duration-quick) var(--easing);
 }
 .input::placeholder {
@@ -158,7 +166,8 @@ body {
   border-radius: 0.9rem;
   background: var(--color-surface);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-  transition: transform var(--duration-smooth) var(--easing),
+  transition:
+    transform var(--duration-smooth) var(--easing),
     box-shadow var(--duration-smooth) var(--easing);
 }
 .card:hover {

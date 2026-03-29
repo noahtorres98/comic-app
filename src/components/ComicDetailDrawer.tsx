@@ -10,55 +10,48 @@ import {
   DrawerDescription,
 } from "@/components/ui/drawer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useComic } from "@/hooks/useComic";
 
-interface Props {
+interface ComicProps {
   comicId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
+type Comic = {
+  id: string;
+  name?: string;
+  publisher?: { name?: string };
+  start_year?: number;
+  image?: { original_url?: string };
+};
+
 export default function ComicDetailDrawer({
   comicId,
   open,
   onOpenChange,
-}: Props) {
-  const [comic, setComic] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    if (!comicId) return;
-    const fetchComic = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/comics/${comicId}`);
-        const data = await res.json();
-        setComic(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchComic();
-  }, [comicId]);
+}: ComicProps) {
+  const { data: comic = {} as Comic, isLoading, error } = useComic(comicId);
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange} direction="right">
-      <DrawerContent className="bg-[#1A1A1A] text-white max-w-md overflow-y-auto">
+      <DrawerContent className="bg-[#1A1A1A] text-white">
         <DrawerHeader>
           <DrawerTitle>{comic?.name || "Loading..."}</DrawerTitle>
           <DrawerDescription>{comic?.publisher?.name || ""}</DrawerDescription>
         </DrawerHeader>
 
         <div className="p-4">
-          {loading ? (
-            <div className="space-y-4">
-              <Skeleton className="h-6 w-1/2" />
-              <Skeleton className="h-96 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
-            </div>
+          {isLoading ? (
+            <Card className="w-full max-w-xs">
+              <CardHeader>
+                <Skeleton className="h-4 w-1/2" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="aspect-video w-full" />
+              </CardContent>
+            </Card>
           ) : (
             <div className="space-y-2">
               {comic.image?.original_url && (

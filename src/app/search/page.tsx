@@ -22,6 +22,7 @@ export default function Search() {
         </BreadcrumbList>
       </Breadcrumb>
       <h1 className="text-3xl font-bold mb-6">Search Comics</h1>
+      
       <ComicSearch />
     </main>
   );

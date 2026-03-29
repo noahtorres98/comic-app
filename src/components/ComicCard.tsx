@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { Card, CardContent } from "./ui/card";
 
 interface ComicCardProps {
   title: string;
   cover: string;
   href?: string;
-  onClick?: () => void; // <-- add this
+  onClick?: () => void;
 }
 
 export default function ComicCard({
@@ -15,15 +16,16 @@ export default function ComicCard({
 }: ComicCardProps) {
   const cardContent = (
     <div
-      className="flex flex-col bg-[var(--color-bg)] shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer"
-      onClick={onClick} // <-- attach the click handler
+      className="flex flex-col shadow-md overflow-hidden hover:scale-105 transition-transform duration-200 cursor-pointer"
+      onClick={onClick}
     >
-      <div className="w-full aspect-[2/3] relative">
-        <img src={cover} alt={title} className="w-full h-full object-cover" />
-      </div>
-      <div className="p-2 text-[var(--color-foreground)] text-sm">
-        <h2 className="font-semibold">{title}</h2>
-      </div>
+      <Card className="overflow-hidden hover:shadow-lg transition">
+        <img src={cover} alt={title} className="w-full h-64 object-cover" />
+
+        <CardContent className="p-3">
+          <h3 className="font-semibold text-sm line-clamp-1">{title}</h3>
+        </CardContent>
+      </Card>
     </div>
   );
 
