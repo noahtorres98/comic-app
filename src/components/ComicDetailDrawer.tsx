@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {
   Drawer,
   DrawerContent,
@@ -14,31 +13,25 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useComic } from "@/hooks/useComic";
 
 interface ComicProps {
-  comicId: string;
+  comicId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-type Comic = {
-  id: string;
-  name?: string;
-  publisher?: { name?: string };
-  start_year?: number;
-  image?: { original_url?: string };
-};
 
 export default function ComicDetailDrawer({
   comicId,
   open,
   onOpenChange,
 }: ComicProps) {
-  const { data: comic = {} as Comic, isLoading, error } = useComic(comicId);
+  const { data: comic, isLoading, isError } = useComic(comicId);
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange} direction="right">
       <DrawerContent className="bg-[#1A1A1A] text-white">
         <DrawerHeader>
-          <DrawerTitle>{comic?.name || "Loading..."}</DrawerTitle>
+          <DrawerTitle>
+            {isError ? "Couldn't load comic" : comic?.name || "Loading..."}
+          </DrawerTitle>
           <DrawerDescription>{comic?.publisher?.name || ""}</DrawerDescription>
         </DrawerHeader>
 
@@ -52,16 +45,23 @@ export default function ComicDetailDrawer({
                 <Skeleton className="aspect-video w-full" />
               </CardContent>
             </Card>
+          ) : isError ? (
+            <p role="alert" className="text-sm text-red-400">
+              Something went wrong while loading this comic. Please try again.
+            </p>
           ) : (
             <div className="space-y-2">
-              {comic.image?.original_url && (
-                <img
+              {comic?.image?.original_url && (
+                <Image
                   src={comic.image.original_url}
-                  alt={comic.name}
-                  className="rounded mb-4"
+                  alt={comic.name ? `Cover of ${comic.name}` : "Comic cover"}
+                  width={400}
+                  height={600}
+                  sizes="400px"
+                  className="rounded mb-4 h-auto w-full"
                 />
               )}
-              <p>Start Year: {comic.start_year}</p>
+              {comic?.start_year && <p>Start Year: {comic.start_year}</p>}
             </div>
           )}
         </div>

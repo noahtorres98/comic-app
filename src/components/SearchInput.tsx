@@ -13,6 +13,7 @@ export function SearchInput({ value, onChange, onSearch }: SearchInputProps) {
     <Field orientation="horizontal">
       <Input
         type="search"
+        aria-label="Search comics"
         placeholder="Search comics..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -20,7 +21,7 @@ export function SearchInput({ value, onChange, onSearch }: SearchInputProps) {
           if (e.key === "Enter") onSearch();
         }}
       />
-      <Button onClick={onSearch}>Search</Button>
+      <Button type="button" onClick={onSearch}>Search</Button>
     </Field>
   );
 }
