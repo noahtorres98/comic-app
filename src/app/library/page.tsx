@@ -1,26 +1,10 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { BreadCrumb } from "@/components/BreadCrumb";
 
 export default async function Library() {
   return (
-    <main className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/library">Library</BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+    <div className="max-h-screen p-8 bg-[var(--color-bg)] text-[var(--color-foreground)]">
+      <BreadCrumb />
       <h1 className="text-3xl font-bold mb-6">My Library</h1>
-    </main>
+    </div>
   );
 }

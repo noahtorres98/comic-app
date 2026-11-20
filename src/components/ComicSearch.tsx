@@ -2,16 +2,15 @@
 
 import { useState } from "react";
 import { useComicSearch } from "@/hooks/useComics";
-import { Spinner } from "./ui/spinner";
 import ComicCard from "./ComicCard";
 import ComicDetailDrawer from "./ComicDetailDrawer";
-import { SkeletonCard } from "./SkeletonCard";
 import { SearchInput } from "./SearchInput";
+import { ComicGridSkeleton } from "./ComicGridSkeleton";
 
 export default function ComicSearch() {
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
-  const [selectedComic, setSelectedComic] = useState(null);
+  const [selectedComic, setSelectedComic] = useState<number | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -30,11 +29,11 @@ export default function ComicSearch() {
         />
       </div>
 
-      {isLoading && <Spinner />}
+      {isLoading && <ComicGridSkeleton />}
 
       {/* Results */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {comics.map((comic: any, index) => (
+        {comics.map((comic, index) => (
           <ComicCard
             key={`${comic.id}-${index}`}
             title={comic.title}
@@ -49,7 +48,7 @@ export default function ComicSearch() {
       </div>
 
       {/* Drawer */}
-      {selectedComic && (
+      {selectedComic !== null && (
         <ComicDetailDrawer
           comicId={selectedComic}
           open={drawerOpen}
@@ -61,6 +60,7 @@ export default function ComicSearch() {
       {hasNextPage && (
         <div className="mt-4 text-center">
           <button
+            type="button"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
             className="bg-gray-800 text-white px-4 py-2"

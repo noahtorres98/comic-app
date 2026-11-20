@@ -1,14 +1,7 @@
-"use client";
-
-import { useState } from "react";
-import ComicCard from "@/components/ComicCard";
-import comicsData from "@/data/comics.json";
-import { Button } from "@/components/ui/button";
+import comics from "@/data/comics.json";
 import SmallLink from "@/components/SmallLink";
 
 export default function Home() {
-  const [comics, setComics] = useState(comicsData);
-
   // Compute stats
   const totalSeries = comics.length;
   const totalIssues = comics.reduce(

@@ -1,21 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [hidden, setHidden] = useState(false);
-  const [lastY, setLastY] = useState(0);
+  const lastY = useRef(0);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-      setHidden(y > lastY); // down → hide, up → show
-      setLastY(y);
+      setHidden(y > lastY.current); // down → hide, up → show
+      lastY.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [lastY]);
+  }, []);
 
   return (
     <nav className={`navbar ${hidden ? "hidden" : ""}`}>
